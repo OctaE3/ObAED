@@ -49,6 +49,24 @@ public class Empresa {
         this.listaBovinos = ListaBovinos;
     }
 
+    public void recorrerListaOvinos(List<Ovino> listaOvino, int indice){
+        if(indice == listaOvino.size()-1){
+            System.out.println(listaOvino.get(indice));
+        }else{
+            System.out.println(listaOvino.get(indice));
+            recorrerListaOvinos(listaOvino, indice + 1);
+        }
+    }
+
+    public void recorrerListaBovinos(List<Bovino> listaBovino, int indice){
+        if(indice == listaBovino.size()-1){
+            System.out.println(listaBovino.get(indice));
+        }else{
+            System.out.println(listaBovino.get(indice));
+            recorrerListaBovinos(listaBovino, indice + 1);
+        }
+    }
+
     @Override
     public String toString() {
         return "Empresa{" +

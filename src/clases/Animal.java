@@ -2,6 +2,8 @@ package clases;
 
 public class Animal {
     private Integer id;
+
+    private Integer idArbol;
     private String sexo;
     private String desparasitado;
     private String vacunado;
@@ -17,9 +19,11 @@ public class Animal {
         this.id = id;
     }
 
-    public String getSexo() {
-        return sexo;
-    }
+    public Integer getIdArbol() { return idArbol; }
+
+    public void setIdArbol(Integer idArbol){ this.idArbol = idArbol; }
+
+    public String getSexo() { return sexo; }
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
@@ -72,8 +76,9 @@ public class Animal {
 
     public Animal() { }
 
-    public Animal(int id, String sexo, String desparasitado, String vacunado, String tipo, Integer id_Padre, Integer id_Madre) {
+    public Animal(int id, Integer idArbol, String sexo, String desparasitado, String vacunado, String tipo, Integer id_Padre, Integer id_Madre) {
         this.id = id;
+        this.idArbol = idArbol;
         this.sexo = sexo;
         this.desparasitado = desparasitado;
         this.vacunado = vacunado;

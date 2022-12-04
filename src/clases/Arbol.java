@@ -5,74 +5,75 @@ public class Arbol {
         int dato;
         Nodo izq, der;
     }
+
     Nodo raiz;
 
-    public Arbol(){
+    public Arbol() {
         raiz = null;
     }
 
-    public void insertar(int dato){
-        Nodo nuevo = new Nodo ();
+    public void insertar(int dato) {
+        Nodo nuevo = new Nodo();
         nuevo.dato = dato;
         nuevo.izq = null;
         nuevo.der = null;
-        if(raiz == null){
+        if (raiz == null) {
             raiz = nuevo;
-        }else{
+        } else {
             Nodo anterior = null, nodo;
             nodo = raiz;
-            while(nodo != null){
+            while (nodo != null) {
                 anterior = nodo;
-                if(dato < nodo.dato) {
+                if (dato < nodo.dato) {
                     nodo = nodo.izq;
-                }else{
+                } else {
                     nodo = nodo.der;
                 }
             }
-            if(dato < anterior.dato) {
+            if (dato < anterior.dato) {
                 anterior.izq = nuevo;
-            }else{
+            } else {
                 anterior.der = nuevo;
             }
         }
     }
 
-    private void imprimirPre(Nodo nodo){
-        if(nodo != null){
+    private void imprimirPre(Nodo nodo) {
+        if (nodo != null) {
             System.out.print(nodo.dato + " ");
-            imprimirPre (nodo.izq);
-            imprimirPre (nodo.der);
+            imprimirPre(nodo.izq);
+            imprimirPre(nodo.der);
         }
     }
 
-    public void imprimirPre(){
-        imprimirPre (raiz);
+    public void imprimirPre() {
+        imprimirPre(raiz);
         System.out.println();
     }
 
-    private void imprimirIn(Nodo nodo){
-        if(nodo != null){
-            imprimirIn (nodo.izq);
+    private void imprimirIn(Nodo nodo) {
+        if (nodo != null) {
+            imprimirIn(nodo.izq);
             System.out.print(nodo.dato + " ");
-            imprimirIn (nodo.der);
+            imprimirIn(nodo.der);
         }
     }
 
-    public void imprimirIn(){
-        imprimirIn (raiz);
+    public void imprimirIn() {
+        imprimirIn(raiz);
         System.out.println();
     }
 
-    private void imprimirPost(Nodo nodo){
-        if(nodo != null){
-            imprimirPost (nodo.izq);
-            imprimirPost (nodo.der);
+    private void imprimirPost(Nodo nodo) {
+        if (nodo != null) {
+            imprimirPost(nodo.izq);
+            imprimirPost(nodo.der);
             System.out.print(nodo.dato + " ");
         }
     }
 
-    public void imprimirPost(){
-        imprimirPost (raiz);
+    public void imprimirPost() {
+        imprimirPost(raiz);
         System.out.println();
     }
 
@@ -81,7 +82,7 @@ public class Arbol {
         while (nodo != null) {
             if (num == nodo.dato) {
                 return true;
-            }else {
+            } else {
                 if (num > nodo.dato) {
                     nodo = nodo.der;
                 } else {
@@ -92,30 +93,34 @@ public class Arbol {
         return false;
     }
 
-    public int sumaTotal(Nodo nodo){
+    public int sumaTotal(Nodo nodo) {
         int suma = 0;
-        if(nodo != null){
+        if (nodo != null) {
             suma += nodo.dato;
             suma += sumaTotal(nodo.izq) + sumaTotal(nodo.der);
         }
         return suma;
     }
 
-    public int altura(Nodo nodo){
-        if(nodo != null){
-            if(altura(nodo.der) >= altura(nodo.izq)){
+    public int altura(Nodo nodo) {
+        if (nodo != null) {
+            if (altura(nodo.der) >= altura(nodo.izq)) {
                 return altura(nodo.der) + 1;
-            }
-            else{
+            } else {
                 return altura(nodo.izq) + 1;
             }
         }
         return -1;
     }
 
-    public int hojas(Nodo nodo){
+    public int altura() {
+        Nodo nodo = raiz;
+        return altura(nodo);
+    }
+
+    public int hojas(Nodo nodo) {
 //        int hojas;
-        if(nodo != null) {
+        if (nodo != null) {
             if (nodo.der == null && nodo.izq == null) {
                 return 1;
             } else {
@@ -126,15 +131,13 @@ public class Arbol {
     }
 
 
-
-
-    public int contarNodos(Nodo nodo){
+    public int contarNodos(Nodo nodo) {
 
         int contador = 1;
-        if(nodo.der!=null) {
+        if (nodo.der != null) {
             contador += contarNodos(nodo.der);
         }
-        if(nodo.izq!=null) {
+        if (nodo.izq != null) {
             contador += contarNodos(nodo.izq);
         }
         return contador;
@@ -146,20 +149,16 @@ public class Arbol {
     }
 
     static int contador = 0;
+
     public int alturaTotal(Nodo nodo) {
-        if(nodo != null) {
-            if(tieneHijos(nodo)) {
-                contador++;
-                if(!tieneHijos(nodo.der) || !tieneHijos(nodo.izq))
-                    return contador;
-            }
-            contador++;
+        if (nodo != null) {
+            return 1 + Math.max(alturaTotal(nodo.izq), alturaTotal(nodo.der));
         }
-        return contador;
+        return 0;
     }
 
-    public boolean tieneHijos(Nodo nodo) {
-        if(nodo.izq == null && nodo.der == null)
+    public boolean tienePadres(Nodo nodo) {
+        if (nodo.izq == null && nodo.der == null)
             return false;
         return true;
     }

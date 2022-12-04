@@ -5,12 +5,21 @@ import clases.*;
 import java.util.*;
 
 public class Controladora {
-
     static Usuario usuario = new Usuario();
     static Empresa empresa;
     static List<Bovino> listaBovinos = new ArrayList();
     static List<Ovino> listaOvinos = new ArrayList();
     static Scanner scan = new Scanner(System.in);
+    static Arbol arbol = new Arbol();
+
+    public static Bovino buscarBovino(int id) {
+        for (Bovino bovino : listaBovinos) {
+            if (bovino.getId() == id) {
+                return bovino;
+            }
+        }
+        return null;
+    }
 
     public static void altaEmpresa() {
         System.out.println("Ingrese los siguientes datos.");
@@ -56,8 +65,8 @@ public class Controladora {
             System.out.println("Ingrese el sexo");
             String sexo = scan.next();
             System.out.println("El Ovino esta desparasitado?");
-            System.out.println("Ingrese 1 si esta desparasitado");
-            System.out.println("Ingrese 2 si no esta desparasitado");
+            System.out.println("Ingrese 1 si está desparasitado");
+            System.out.println("Ingrese 2 si no está desparasitado");
             int desp = scan.nextInt();
             String desparasitado = "No";
             if (desp == 1) {
@@ -78,7 +87,7 @@ public class Controladora {
             String tipo = "Ovino";
             int padre = 0;
             int madre = 0;
-            Ovino ovino = new Ovino(id, sexo, desparasitado, vacunado, tipo, padre, madre);
+            Ovino ovino = new Ovino(id, 0, sexo, desparasitado, vacunado, tipo, padre, madre);
             listaOvinos.add(ovino);
         } else {
             System.out.println("Ingrese los datos del Bovino");
@@ -109,13 +118,13 @@ public class Controladora {
             String tipo = "Bovino";
             int padre = 0;
             int madre = 0;
-            Bovino bovino = new Bovino(id, sexo, desparasitado, vacunado, tipo, padre, madre);
+            Bovino bovino = new Bovino(id, 0, sexo, desparasitado, vacunado, tipo, padre, madre);
             listaBovinos.add(bovino);
         }
     }
 
     public static boolean chequeoPadreMadre(Integer padre, Integer madre, Integer hijo, String tipo) {
-        if(tipo.equals("Ovino")) {
+        if (tipo.equals("Ovino")) {
             for (Ovino ovino : listaOvinos) {
                 if (ovino.getId_Padre().equals(padre) || ovino.getId_Madre().equals(madre)) {
                     return false;
@@ -125,8 +134,7 @@ public class Controladora {
                 return false;
             }
             return true;
-        }
-        else{
+        } else {
             for (Bovino bovino : listaBovinos) {
                 if (bovino.getId_Padre().equals(padre) || bovino.getId_Madre().equals(madre)) {
                     return false;
@@ -180,17 +188,35 @@ public class Controladora {
         bovino.setId_Padre(padre);
         bovino.setId_Madre(madre);
         empresa.setListaBovinos(listaBovinos);
-        System.out.println("Padre y Madre agregador con éxito");
+        System.out.println("Padre y Madre agregados con éxito");
     }
 
-    public static void listarAnimalesPorEspecie(Empresa empresa){
+    public static int idArbolPadre(int idHijo) {
+        int altura = arbol.alturaTotal();
+        int idPadre = 0;
+        Bovino hijo = buscarBovino(idHijo);
+
+        switch (altura) {
+            case 0:
+                return hijo.getIdArbol() - 300;
+            case 1:
+                return hijo.getIdArbol() - 100;
+            case 2:
+                return hijo.getIdArbol() - 50;
+            case 3:
+                return hijo.getIdArbol() - 10;
+        }
+        return 0;
+    }
+
+    public static void listarAnimalesPorEspecie(Empresa empresa) {
         System.out.println("Ovinos de la empresa: " + empresa.getNombre());
-        for (Ovino ovino : empresa.getListaOvinos()){
+        for (Ovino ovino : empresa.getListaOvinos()) {
             ovino.toString();
         }
         System.out.println("-----------------------------------------------------------------------------");
         System.out.println("Bovinos de la empresa: " + empresa.getNombre());
-        for (Bovino bovino : empresa.getListaBovinos()){
+        for (Bovino bovino : empresa.getListaBovinos()) {
             bovino.toString();
         }
     }
