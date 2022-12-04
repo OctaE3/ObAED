@@ -5,38 +5,19 @@ import clases.*;
 import java.util.*;
 
 public class Controladora {
+
+    //#region Instancias y Listas
+
     static Usuario usuario = new Usuario();
     static Empresa empresa;
     static List<Bovino> listaBovinos = new ArrayList();
     static List<Ovino> listaOvinos = new ArrayList();
     static Scanner scan = new Scanner(System.in);
     static Arbol arbol = new Arbol();
+   
+    //#endregion
 
-    public static Bovino buscarBovino(int id) {
-        for (Bovino bovino : listaBovinos) {
-            if (bovino.getId() == id) {
-                return bovino;
-            }
-        }
-        return null;
-    }
-
-    public static void altaEmpresa() {
-        System.out.println("Ingrese los siguientes datos.");
-        System.out.println("Ingrese el nombre");
-        String nombre = scan.next();
-        System.out.println("Ingrese la dirección");
-        String direccion = scan.nextLine();
-
-        empresa = new Empresa(nombre, direccion, listaOvinos, listaBovinos);
-    }
-
-    public static Boolean chequeoLogin(String nombre, String pass) {
-        if (nombre.equals(usuario.getNombre()) && pass.equals(usuario.getContrasenia()))
-            return true;
-        else
-            return false;
-    }
+    //#region Login
 
     public static void login() {
         System.out.println("Ingrese el usuario");
@@ -53,7 +34,32 @@ public class Controladora {
         }
     }
 
-    public static void altaAnimal() {
+    public static Boolean chequeoLogin(String nombre, String pass) {
+        if (nombre.equals(usuario.getNombre()) && pass.equals(usuario.getContrasenia()))
+            return true;
+        else
+            return false;
+    }
+
+    //#endregion
+
+    //#region Empresa
+
+    public static void altaEmpresa() {
+        System.out.println("Ingrese los siguientes datos.");
+        System.out.println("Ingrese el nombre");
+        String nombre = scan.next();
+        System.out.println("Ingrese la dirección");
+        String direccion = scan.nextLine();
+
+        empresa = new Empresa(nombre, direccion, listaOvinos, listaBovinos);
+    }
+
+    //#endregion
+
+    //#region Animal
+
+    public static void altaAnimal() {   //Agregar Animal
         System.out.println("Agregar Animal.");
         System.out.println("Ingrese 1 para agregar un Ovino");
         System.out.println("Ingrese 2 para agregar un Bovino");
@@ -123,7 +129,7 @@ public class Controladora {
         }
     }
 
-    public static boolean chequeoPadreMadre(Integer padre, Integer madre, Integer hijo, String tipo) {
+    public static boolean chequeoPadreMadre(Integer padre, Integer madre, Integer hijo, String tipo) { //Chequeo Acendencia
         if (tipo.equals("Ovino")) {
             for (Ovino ovino : listaOvinos) {
                 if (ovino.getId_Padre().equals(padre) || ovino.getId_Madre().equals(madre)) {
@@ -147,29 +153,22 @@ public class Controladora {
         }
     }
 
-    public static void asignarPadreMadreOvino(Ovino ovino) {
-        System.out.println("Asignar Madre y Padre al ovino: " + ovino.getId());
-        System.out.println("Ingrese el id del Padre");
-        Integer padre = scan.nextInt();
-        System.out.println("Ingrese el id del Madre");
-        Integer madre = scan.nextInt();
-        String tipo = "Ovino";
-        if (!chequeoPadreMadre(padre, madre, ovino.getId(), tipo)) {
-            while (!chequeoPadreMadre(padre, madre, ovino.getId(), tipo)) {
-                System.out.println("Error al ingresar el padre o la madre, intente de nuevo");
-                System.out.println("Ingrese el id del Padre");
-                padre = scan.nextInt();
-                System.out.println("Ingrese el id del Madre");
-                madre = scan.nextInt();
+
+
+    //#endregion
+    
+    //#region Bovino
+
+    public static Bovino buscarBovino(int id) { //Buscar Bovinos
+        for (Bovino bovino : listaBovinos) {
+            if (bovino.getId() == id) {
+                return bovino;
             }
         }
-        ovino.setId_Padre(padre);
-        ovino.setId_Madre(madre);
-        empresa.setListaOvinos(listaOvinos);
-        System.out.println("Padre y Madre agregador con éxito");
+        return null;
     }
 
-    public static void asignarPadreMadreBovino(Bovino bovino) {
+    public static void asignarPadreMadreBovino(Bovino bovino) { //Asignar Acendencia Bovinos
         System.out.println("Asignar Madre y Padre al bovino: " + bovino.getId());
         System.out.println("Ingrese el id del Padre");
         Integer padre = scan.nextInt();
@@ -191,23 +190,37 @@ public class Controladora {
         System.out.println("Padre y Madre agregados con éxito");
     }
 
-    public static int idArbolPadre(int idHijo) {
-        int altura = arbol.alturaTotal();
-        int idPadre = 0;
-        Bovino hijo = buscarBovino(idHijo);
 
-        switch (altura) {
-            case 0:
-                return hijo.getIdArbol() - 300;
-            case 1:
-                return hijo.getIdArbol() - 100;
-            case 2:
-                return hijo.getIdArbol() - 50;
-            case 3:
-                return hijo.getIdArbol() - 10;
+    //#endregion
+    
+   //#region  Ovino
+
+   public static void asignarPadreMadreOvino(Ovino ovino) { // Asignar Acendencia Ovino
+    System.out.println("Asignar Madre y Padre al ovino: " + ovino.getId());
+    System.out.println("Ingrese el id del Padre");
+    Integer padre = scan.nextInt();
+    System.out.println("Ingrese el id del Madre");
+    Integer madre = scan.nextInt();
+    String tipo = "Ovino";
+    if (!chequeoPadreMadre(padre, madre, ovino.getId(), tipo)) {
+        while (!chequeoPadreMadre(padre, madre, ovino.getId(), tipo)) {
+            System.out.println("Error al ingresar el padre o la madre, intente de nuevo");
+            System.out.println("Ingrese el id del Padre");
+            padre = scan.nextInt();
+            System.out.println("Ingrese el id del Madre");
+            madre = scan.nextInt();
         }
-        return 0;
     }
+    ovino.setId_Padre(padre);
+    ovino.setId_Madre(madre);
+    empresa.setListaOvinos(listaOvinos);
+    System.out.println("Padre y Madre agregador con éxito");
+}
+
+
+   //#endregion
+
+    //#region Consultas
 
     public static void listarAnimalesPorEspecie(Empresa empresa) {
         System.out.println("Ovinos de la empresa: " + empresa.getNombre());
@@ -220,4 +233,30 @@ public class Controladora {
             bovino.toString();
         }
     }
+
+    //#endregion
+
+   //#region Extras
+
+   public static int idArbolPadre(int idHijo) {
+    int altura = arbol.alturaTotal();
+    int idPadre = 0;
+    Bovino hijo = buscarBovino(idHijo);
+
+    switch (altura) {
+        case 0:
+            return hijo.getIdArbol() - 300;
+        case 1:
+            return hijo.getIdArbol() - 100;
+        case 2:
+            return hijo.getIdArbol() - 50;
+        case 3:
+            return hijo.getIdArbol() - 10;
+    }
+    return 0;
+}
+
+
+   //#endregion
+
 }
