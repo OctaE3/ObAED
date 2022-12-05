@@ -132,7 +132,6 @@ public class Arbol {
 
 
     public int contarNodos(Nodo nodo) {
-
         int contador = 1;
         if (nodo.der != null) {
             contador += contarNodos(nodo.der);
@@ -152,7 +151,13 @@ public class Arbol {
 
     public int alturaTotal(Nodo nodo) {
         if (nodo != null) {
-            return 1 + Math.max(alturaTotal(nodo.izq), alturaTotal(nodo.der));
+            if (nodo.der != null && nodo.izq != null) {
+                int altura = 1 + Math.max(alturaTotal(nodo.izq), alturaTotal(nodo.der));
+                if (altura >= 1) {
+                    return 1;
+                }
+                return altura;
+            }
         }
         return 0;
     }

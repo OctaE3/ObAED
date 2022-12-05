@@ -11,6 +11,8 @@ public class Animal {
     private Integer id_Padre;
     private Integer id_Madre;
 
+    private Integer id_Hijo;
+
     public Integer getId() {
         return id;
     }
@@ -69,14 +71,22 @@ public class Animal {
         this.id_Madre = id_Madre;
     }
 
+    public Integer getId_Hijo() {
+        return id_Hijo;
+    }
+
+    public void setId_Hijo(Integer id_Hijo) {
+        this.id_Hijo = id_Hijo;
+    }
+
     @Override
     public String toString() {
-        return "Id: " + id + ", Sexo: " + sexo + ", Desparasitado: " + desparasitado + ", Vacunado: " + vacunado + ", Tipo: " + tipo + ", Id Padre: " + id_Padre + ", Id Madre: " + id_Madre;
+        return "Id: " + id + ", Sexo: " + sexo + ", Desparasitado: " + desparasitado + ", Vacunado: " + vacunado + ", Tipo: " + tipo + ", Id Padre: " + id_Padre + ", Id Madre: " + id_Madre + ", Id Hijo: " + id_Hijo;
     }
 
     public Animal() { }
 
-    public Animal(int id, Integer idArbol, String sexo, String desparasitado, String vacunado, String tipo, Integer id_Padre, Integer id_Madre) {
+    public Animal(int id, Integer idArbol, String sexo, String desparasitado, String vacunado, String tipo, Integer id_Padre, Integer id_Madre, Integer id_Hijo) {
         this.id = id;
         this.idArbol = idArbol;
         this.sexo = sexo;
@@ -85,5 +95,6 @@ public class Animal {
         this.tipo = tipo;
         this.id_Padre = id_Padre;
         this.id_Madre = id_Madre;
+        this.id_Hijo = id_Hijo;
     }
 }
