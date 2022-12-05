@@ -130,7 +130,6 @@ public class Arbol {
         return 0;
     }
 
-
     public int contarNodos(Nodo nodo) {
         int contador = 1;
         if (nodo.der != null) {

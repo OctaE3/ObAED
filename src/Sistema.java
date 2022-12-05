@@ -24,27 +24,44 @@ public class Sistema {
                 case 0:
                     break;
                 case 1:
-                    Controladora.altaEmpresa();
+                    if(Controladora.empresa == null)
+                        Controladora.altaEmpresa();
+                    else
+                        System.out.println("La empresa ya esta ingresada");
                     break;
                 case 2:
-                    Controladora.altaAnimal();
+                    if(Controladora.listaOvinos.size() == 7 && Controladora.listaBovinos.size() == 7)
+                        System.out.println("Ya están agregados todos los ovinos y bovinos!");
+                    else
+                        Controladora.altaAnimal();
                     break;
                 case 3:
                     Controladora.ingresarArbol();
                     break;
                 case 4:
                     System.out.println("Ingrese id de animal");
-                    Controladora.listarAnimalPorId(scan.nextByte());
+                    int id = scan.nextInt();
+                    if(Controladora.buscarBovino(id) == null && Controladora.buscarOvino(id) == null)
+                        System.out.println("Ese animal no existe.");
+                    else
+                        Controladora.listarAnimalPorId(id);
                     break;
                 case 5:
                     System.out.println("Ingrese id de animal");
-                    Controladora.listarGenealogiaPorId(scan.nextByte());
+                    int idA = scan.nextInt();
+                    if(Controladora.buscarBovino(idA) == null && Controladora.buscarOvino(idA) == null)
+                        System.out.println("Ese animal no existe.");
+                    else
+                        Controladora.listarGenealogiaPorId(idA);
                     break;
                 case 6:
-                    Controladora.listarAnimalesPorEspecie();
+                    if(Controladora.listaBovinos.size() > 0 && Controladora.listaOvinos.size() > 0)
+                        Controladora.listarAnimalesPorEspecie();
+                    else
+                        System.out.println("La lista de animales esta vacía.");
                     break;
                 default:
-                    System.out.println("Número no válido, ingrese otro");
+                    System.out.println("Opción no válida, ingrese otra");
             }
         }while(opcion > 0);
 

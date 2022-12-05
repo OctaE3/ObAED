@@ -7,7 +7,7 @@ import java.util.*;
 public class Controladora {
     //#region Instancias y Listas
     static Usuario usuario = new Usuario();
-    static Empresa empresa;
+    public static Empresa empresa;
     public static List<Bovino> listaBovinos = new ArrayList();
     public static List<Ovino> listaOvinos = new ArrayList();
     static Scanner scan = new Scanner(System.in);
@@ -47,7 +47,7 @@ public class Controladora {
     public static void altaEmpresa() {
         System.out.println("Ingrese los siguientes datos.");
         System.out.println("Ingrese el nombre");
-        String nombre = scan.next();
+        String nombre = scan.nextLine();
         System.out.println("Ingrese la dirección");
         String direccion = scan.nextLine();
 
@@ -68,6 +68,10 @@ public class Controladora {
                 System.out.println("Ingrese los datos del Ovino");
                 System.out.println("Ingrese el id del Ovino");
                 int id = scan.nextInt();
+                while (buscarOvino(id) != null){
+                    System.out.println("El id ya existe, ingrese otro");
+                    id = scan.nextInt();
+                }
                 System.out.println("Ingrese el sexo");
                 String sexo = scan.next();
                 System.out.println("El Ovino esta desparasitado?");
@@ -94,11 +98,18 @@ public class Controladora {
                 Ovino ovino = new Ovino(id, 0, sexo, desparasitado, vacunado, tipo, null, null, null);
                 listaOvinos.add(ovino);
             }
-        } else {
+            if(listaOvinos.size() == 7){
+                System.out.println("Ya están agregados todos los ovinos!");
+            }
+        } else if(elec == 2) {
             while (listaBovinos.size() < 7) {
                 System.out.println("Ingrese los datos del Bovino");
                 System.out.println("Ingrese el id del Ovino");
                 int id = scan.nextInt();
+                while (buscarBovino(id) != null){
+                    System.out.println("El id ya existe, ingrese otro");
+                    id = scan.nextInt();
+                }
                 System.out.println("Ingrese el sexo");
                 String sexo = scan.next();
                 System.out.println("El Bovino esta desparasitado?");
@@ -125,6 +136,12 @@ public class Controladora {
                 Bovino bovino = new Bovino(id, 0, sexo, desparasitado, vacunado, tipo, null, null, null);
                 listaBovinos.add(bovino);
             }
+            if(listaBovinos.size() == 7){
+                System.out.println("Ya están agregados todos los bovinos!");
+            }
+        }
+        else{
+            System.out.println("Esa opción no existe.");
         }
     }
 
@@ -227,6 +244,9 @@ public class Controladora {
             bovino7.setId_Hijo(bovino3.getId());
             bovino7.setIdArbol(idArbolMadreBovino(bovino3.getId()));
             arbolBovino.insertar(bovino7.getIdArbol());
+        }
+        else{
+            System.out.println("Esa opción no existe.");
         }
     }
 
