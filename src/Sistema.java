@@ -44,7 +44,7 @@ public class Sistema {
                     if(Controladora.buscarBovino(id) == null && Controladora.buscarOvino(id) == null)
                         System.out.println("Ese animal no existe.");
                     else
-                        Controladora.listarAnimalPorId(id);
+                        System.out.println(Controladora.listarAnimalPorId(Controladora.animales, 0, Controladora.animales.size() - 1, id));
                     break;
                 case 5:
                     System.out.println("Ingrese id de animal");

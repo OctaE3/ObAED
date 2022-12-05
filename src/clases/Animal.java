@@ -2,7 +2,6 @@ package clases;
 
 public class Animal {
     private Integer id;
-
     private Integer idArbol;
     private String sexo;
     private String desparasitado;

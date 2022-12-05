@@ -10,6 +10,8 @@ public class Controladora {
     public static Empresa empresa;
     public static List<Bovino> listaBovinos = new ArrayList();
     public static List<Ovino> listaOvinos = new ArrayList();
+
+    public static List<Animal> animales = new ArrayList<Animal>();
     static Scanner scan = new Scanner(System.in);
     public static Arbol arbolBovino = new Arbol();
     public static Arbol arbolOvino = new Arbol();
@@ -68,7 +70,7 @@ public class Controladora {
                 System.out.println("Ingrese los datos del Ovino");
                 System.out.println("Ingrese el id del Ovino");
                 int id = scan.nextInt();
-                while (buscarOvino(id) != null){
+                while (buscarOvino(id) != null || buscarBovino(id) != null){
                     System.out.println("El id ya existe, ingrese otro");
                     id = scan.nextInt();
                 }
@@ -97,6 +99,7 @@ public class Controladora {
                 String tipo = "Ovino";
                 Ovino ovino = new Ovino(id, 0, sexo, desparasitado, vacunado, tipo, null, null, null);
                 listaOvinos.add(ovino);
+                animales.add(ovino);
             }
             if(listaOvinos.size() == 7){
                 System.out.println("Ya están agregados todos los ovinos!");
@@ -106,7 +109,7 @@ public class Controladora {
                 System.out.println("Ingrese los datos del Bovino");
                 System.out.println("Ingrese el id del Ovino");
                 int id = scan.nextInt();
-                while (buscarBovino(id) != null){
+                while (buscarBovino(id) != null || buscarOvino(id) != null){
                     System.out.println("El id ya existe, ingrese otro");
                     id = scan.nextInt();
                 }
@@ -135,6 +138,7 @@ public class Controladora {
                 String tipo = "Bovino";
                 Bovino bovino = new Bovino(id, 0, sexo, desparasitado, vacunado, tipo, null, null, null);
                 listaBovinos.add(bovino);
+                animales.add(bovino);
             }
             if(listaBovinos.size() == 7){
                 System.out.println("Ya están agregados todos los bovinos!");
@@ -312,29 +316,6 @@ public class Controladora {
         }
         return 0;
     }
-
-    public static void asignarPadreMadreBovino(Bovino bovino) { //Asignar ascendencia Bovinos
-        System.out.println("Asignar Madre y Padre al bovino: " + bovino.getId());
-        System.out.println("Ingrese el id del Padre");
-        Integer padre = scan.nextInt();
-        System.out.println("Ingrese el id del Madre");
-        Integer madre = scan.nextInt();
-        String tipo = "Bovino";
-        if (!chequeoPadreMadre(padre, madre, bovino.getId(), tipo)) {
-            while (!chequeoPadreMadre(padre, madre, bovino.getId(), tipo)) {
-                System.out.println("Error al ingresar el padre o la madre, intente de nuevo");
-                System.out.println("Ingrese el id del Padre");
-                padre = scan.nextInt();
-                System.out.println("Ingrese el id del Madre");
-                madre = scan.nextInt();
-            }
-        }
-        bovino.setId_Padre(padre);
-        bovino.setId_Madre(madre);
-        empresa.setListaBovinos(listaBovinos);
-        System.out.println("Padre y Madre agregados con éxito");
-    }
-
     public static void listarBovinos(List<Bovino> lista, int indice) {
         if (lista.size() > 0) {
             if (indice == lista.size() - 1) {
@@ -350,28 +331,6 @@ public class Controladora {
     //#endregion
 
     //#region Ovino
-    public static void asignarPadreMadreOvino(Ovino ovino) { // Asignar ascendencia ovino
-        System.out.println("Asignar Madre y Padre al ovino: " + ovino.getId());
-        System.out.println("Ingrese el id del Padre");
-        Integer padre = scan.nextInt();
-        System.out.println("Ingrese el id del Madre");
-        Integer madre = scan.nextInt();
-        String tipo = "Ovino";
-        if (!chequeoPadreMadre(padre, madre, ovino.getId(), tipo)) {
-            while (!chequeoPadreMadre(padre, madre, ovino.getId(), tipo)) {
-                System.out.println("Error al ingresar el padre o la madre, intente de nuevo");
-                System.out.println("Ingrese el id del Padre");
-                padre = scan.nextInt();
-                System.out.println("Ingrese el id del Madre");
-                madre = scan.nextInt();
-            }
-        }
-        ovino.setId_Padre(padre);
-        ovino.setId_Madre(madre);
-        empresa.setListaOvinos(listaOvinos);
-        System.out.println("Padre y Madre agregador con éxito");
-    }
-
     public static Ovino buscarOvino(int id) { //Buscar Ovinos
         for (Ovino ovino : listaOvinos) {
             if (ovino.getId() == id) {
@@ -430,16 +389,26 @@ public class Controladora {
         System.out.println("Bovinos de la empresa: ");
         listarBovinos(listaBovinos, 0);
     }
-
-    public static void listarAnimalPorId(int idAnimal) {
-        for (Bovino bovino : listaBovinos) {
-            if (bovino.getId() == idAnimal) {
-                System.out.println(bovino.toString());
-            }
+    public static Animal listarAnimalPorId(List<Animal> animales, int inicio, int fin, int idAnimal) {
+        if(animales.size() > 0) {
+            Collections.sort(animales, Comparator.comparingInt(Animal::getId));
+        }else{
+            System.out.println("No hay animales");
         }
-        for (Ovino ovino : listaOvinos) {
-            if (ovino.getId() == idAnimal) {
-                System.out.println(ovino.toString());
+
+        if(inicio == fin){
+            if(animales.get(inicio).getId() == idAnimal){
+                return animales.get(inicio);
+            }
+            return null;
+        }else{
+            int mitad = (inicio + fin) / 2;
+            Animal mitadIzq = listarAnimalPorId(animales, inicio, mitad, idAnimal);
+
+            if(mitadIzq != null){
+                return mitadIzq;
+            }else{
+                return listarAnimalPorId(animales, mitad+1, fin, idAnimal);
             }
         }
     }
